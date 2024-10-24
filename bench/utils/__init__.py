@@ -43,6 +43,9 @@ def is_bench_directory(directory=os.path.curdir):
 	for folder in paths_in_bench:
 		path = os.path.abspath(os.path.join(directory, folder))
 		is_bench = is_bench and os.path.exists(path)
+		# Once is_bench becomes false, it will always be false, even if other path exists.
+		if not is_bench:
+			break
 
 	return is_bench
 
