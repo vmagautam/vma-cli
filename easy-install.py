@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import base64
 import fileinput
 import logging
 import os
@@ -316,8 +317,123 @@ def create_site(
 		cprint(f"Bench Site creation failed for {sitename}\n", e)
 
 
+def add_build_parser(argparser: argparse.ArgumentParser):
+	subparsers = argparser.add_subparsers(dest='subcommand')
+	build = subparsers.add_parser('build', help='Build Custom Images')
+	build.add_argument(
+		"-p",
+		"--push",
+		help="Push the built image to registry",
+		action="store_true",
+	)
+	build.add_argument(
+		"-r",
+		"--frappe-path",
+		help="Frappe Repository to use, default: https://github.com/frappe/frappe",  # noqa: E501
+		default="https://github.com/frappe/frappe",
+	)
+	build.add_argument(
+		"-b",
+		"--frappe-branch",
+		help="Frappe branch to use, default: version-15",
+		default="version-15",
+	)
+	build.add_argument(
+		"-j",
+		"--apps-json",
+		help="Path to apps json, default: frappe_docker/development/apps-example.json",
+		default="frappe_docker/development/apps-example.json",
+	)
+	build.add_argument(
+		"-i",
+		"--image-name",
+		help="Full Image Name, default: custom-apps:latest",
+		default="custom-apps:latest",
+	)
+	build.add_argument(
+		"-c",
+		"--containerfile",
+		help="Path to Containerfile: images/layered/Containerfile",
+		default="images/layered/Containerfile",
+	)
+	build.add_argument(
+		"-y",
+		"--python-version",
+		help="Python Version, default: 3.11.6",
+		default="3.11.6",
+	)
+	build.add_argument(
+		"-n",
+		"--node-version",
+		help="NodeJS Version, default: 18.18.2",
+		default="18.18.2",
+	)
+
+def build_image(
+	push: bool,
+	frappe_path: str,
+	frappe_branch: str,
+	containerfile_path: str,
+	apps_json_path: str,
+	image_name: str,
+	python_version: str,
+	node_version: str,
+):
+	if not check_repo_exists():
+		clone_frappe_docker_repo()
+	install_docker()
+	apps_json_base64 = None
+	try:
+		with open(apps_json_path, "rb") as file_text:
+			file_read = file_text.read()
+			apps_json_base64 = (
+				base64.encodebytes(file_read).decode("utf-8").replace("\n", "")
+			)
+	except Exception as e:
+		logging.error("Unable to base64 encode apps.json", exc_info=True)
+		cprint("\nUnable to base64 encode apps.json\n\n", "[ERROR]: ", e, level=1)
+
+	command = [
+		which("docker"),
+		"build",
+		"--progress=plain",
+		f"--tag={image_name}",
+		f"--file={containerfile_path}",
+		f"--build-arg=FRAPPE_PATH={frappe_path}",
+		f"--build-arg=FRAPPE_BRANCH={frappe_branch}",
+		f"--build-arg=PYTHON_VERSION={python_version}",
+		f"--build-arg=NODE_VERSION={node_version}",
+		f"--build-arg=APPS_JSON_BASE64={apps_json_base64}",
+		".",
+	]
+
+	try:
+		subprocess.run(
+			command,
+			check=True,
+			cwd='frappe_docker',
+		)
+	except Exception as e:
+		logging.error("Image build failed", exc_info=True)
+		cprint("\nImage build failed\n\n", "[ERROR]: ", e, level=1)
+
+	if push:
+		try:
+			subprocess.run(
+				[which("docker"), "push", image_name],
+				check=True,
+			)
+		except Exception as e:
+			logging.error("Image push failed", exc_info=True)
+			cprint("\nImage push failed\n\n", "[ERROR]: ", e, level=1)
+
+
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="Install Frappe with Docker")
+
+	# Build command
+	add_build_parser(parser)
+
 	parser.add_argument(
 		"-p", "--prod", help="Setup Production System", action="store_true"
 	)
@@ -341,6 +457,20 @@ if __name__ == "__main__":
 		"-v", "--version", help="ERPNext version to install, defaults to latest stable"
 	)
 	args = parser.parse_args()
+
+	if args.subcommand == 'build':
+		build_image(
+			push=args.push,
+			frappe_path=args.frappe_path,
+			frappe_branch=args.frappe_branch,
+			apps_json_path=args.apps_json,
+			image_name=args.image_name,
+			containerfile_path=args.containerfile,
+			python_version=args.python_version,
+			node_version=args.node_version,
+		)
+		sys.exit(0)
+
 	if args.dev:
 		cprint("\nSetting Up Development Instance\n", level=2)
 		logging.info("Running Development Setup")
