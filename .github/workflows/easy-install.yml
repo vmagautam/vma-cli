@@ -31,6 +31,13 @@ jobs:
         with:
           python-version: '3.8'
 
+      - name: Login
+        uses: docker/login-action@v3
+        with:
+          registry: localhost:5000
+          username: admin
+          password: secret
+
       - name: Perform production easy install
         run: |
           python3 ${GITHUB_WORKSPACE}/easy-install.py build --tag localhost:5000/frappe/erpnext:latest --push
