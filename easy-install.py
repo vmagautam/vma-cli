@@ -350,7 +350,6 @@ def add_build_parser(argparser: argparse.ArgumentParser):
 		dest="tags",
 		help="Full Image Name(s), default: custom-apps:latest",
 		action="append",
-		default=["custom-apps:latest"],
 	)
 	build.add_argument(
 		"-c",
@@ -384,6 +383,10 @@ def build_image(
 	if not check_repo_exists():
 		clone_frappe_docker_repo()
 	install_docker()
+
+	if not tags:
+		tags = ["custom-apps:latest"]
+
 	apps_json_base64 = None
 	try:
 		with open(apps_json_path, "rb") as file_text:
