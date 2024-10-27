@@ -11,7 +11,7 @@ import sys
 import time
 import urllib.request
 from shutil import move, unpack_archive, which
-from typing import Dict
+from typing import Dict, List
 
 logging.basicConfig(
 	filename="easy-install.log",
@@ -377,7 +377,7 @@ def build_image(
 	frappe_branch: str,
 	containerfile_path: str,
 	apps_json_path: str,
-	tags: list[str],
+	tags: List[str],
 	python_version: str,
 	node_version: str,
 ):
