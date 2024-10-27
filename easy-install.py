@@ -345,10 +345,12 @@ def add_build_parser(argparser: argparse.ArgumentParser):
 		default="frappe_docker/development/apps-example.json",
 	)
 	build.add_argument(
-		"-i",
-		"--image",
-		help="Full Image Name, default: custom-apps:latest",
-		default="custom-apps:latest",
+		"-t",
+		"--tag",
+		dest="tags",
+		help="Full Image Name(s), default: custom-apps:latest",
+		action="append",
+		default=["custom-apps:latest"],
 	)
 	build.add_argument(
 		"-c",
@@ -375,7 +377,7 @@ def build_image(
 	frappe_branch: str,
 	containerfile_path: str,
 	apps_json_path: str,
-	image_name: str,
+	tags: list[str],
 	python_version: str,
 	node_version: str,
 ):
@@ -397,7 +399,12 @@ def build_image(
 		which("docker"),
 		"build",
 		"--progress=plain",
-		f"--tag={image_name}",
+	]
+
+	for tag in tags:
+		command.append(f"--tag={tag}")
+
+	command += [
 		f"--file={containerfile_path}",
 		f"--build-arg=FRAPPE_PATH={frappe_path}",
 		f"--build-arg=FRAPPE_BRANCH={frappe_branch}",
@@ -419,10 +426,11 @@ def build_image(
 
 	if push:
 		try:
-			subprocess.run(
-				[which("docker"), "push", image_name],
-				check=True,
-			)
+			for tag in tags:
+				subprocess.run(
+					[which("docker"), "push", tag],
+					check=True,
+				)
 		except Exception as e:
 			logging.error("Image push failed", exc_info=True)
 			cprint("\nImage push failed\n\n", "[ERROR]: ", e, level=1)
@@ -464,7 +472,7 @@ if __name__ == "__main__":
 			frappe_path=args.frappe_path,
 			frappe_branch=args.frappe_branch,
 			apps_json_path=args.apps_json,
-			image_name=args.image,
+			tags=args.tags,
 			containerfile_path=args.containerfile,
 			python_version=args.python_version,
 			node_version=args.node_version,
