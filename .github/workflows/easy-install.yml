@@ -17,11 +17,6 @@ jobs:
   easy-install-setup:
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    services:
-      registry:
-        image: registry:2
-        ports:
-          - 5000:5000
 
     name: Easy Install Test
     steps:
@@ -31,17 +26,10 @@ jobs:
         with:
           python-version: '3.8'
 
-      - name: Login
-        uses: docker/login-action@v3
-        with:
-          registry: localhost:5000
-          username: admin
-          password: secret
-
       - name: Perform production easy install
         run: |
-          python3 ${GITHUB_WORKSPACE}/easy-install.py build --tag localhost:5000/frappe/erpnext:latest --push
-          python3 ${GITHUB_WORKSPACE}/easy-install.py -p -n actions_test --email test@frappe.io --image localhost:5000/frappe/erpnext --version latest
+          python3 ${GITHUB_WORKSPACE}/easy-install.py build
+          python3 ${GITHUB_WORKSPACE}/easy-install.py -p -n actions_test --email test@frappe.io --image custom-apps --version latest
           docker compose -p actions_test exec backend bench version --format json
           docker compose -p actions_test exec backend bench --site site1.localhost list-apps --format json
           result=$(curl -H "Host: site1.localhost" -sk https://127.0.0.1/api/method/ping | jq -r ."message")

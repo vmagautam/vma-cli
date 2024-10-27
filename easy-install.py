@@ -97,6 +97,7 @@ def write_to_env(
 				f"LETSENCRYPT_EMAIL={email}\n",
 				f"SITE_ADMIN_PASS={admin_pass}\n",
 				f"SITES={quoted_sites}\n",
+				"PULL_POLICY=missing\n",
 			]
 		)
 
