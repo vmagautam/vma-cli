@@ -346,7 +346,7 @@ def add_build_parser(argparser: argparse.ArgumentParser):
 	)
 	build.add_argument(
 		"-i",
-		"--image-name",
+		"--image",
 		help="Full Image Name, default: custom-apps:latest",
 		default="custom-apps:latest",
 	)
@@ -464,7 +464,7 @@ if __name__ == "__main__":
 			frappe_path=args.frappe_path,
 			frappe_branch=args.frappe_branch,
 			apps_json_path=args.apps_json,
-			image_name=args.image_name,
+			image_name=args.image,
 			containerfile_path=args.containerfile,
 			python_version=args.python_version,
 			node_version=args.node_version,
