@@ -28,7 +28,7 @@ jobs:
 
       - name: Perform production easy install
         run: |
-          python3 ${GITHUB_WORKSPACE}/easy-install.py build
+          python3 ${GITHUB_WORKSPACE}/easy-install.py build 2>&1 >/dev/null
           python3 ${GITHUB_WORKSPACE}/easy-install.py -p -n actions_test --email test@frappe.io --image custom-apps --version latest --app erpnext
           docker compose -p actions_test exec backend bench version --format json
           docker compose -p actions_test exec backend bench --site site1.localhost list-apps --format json
