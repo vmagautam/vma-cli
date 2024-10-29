@@ -117,7 +117,7 @@ def check_repo_exists() -> bool:
 	return os.path.exists(os.path.join(os.getcwd(), "frappe_docker"))
 
 
-def setup_prod(project: str, sites, email: str, version: str = None, image = None) -> None:
+def setup_prod(project: str, sites, email: str, version: str = None, image = None, apps = []) -> None:
 	if len(sites) == 0:
 		sites = ["site1.localhost"]
 
@@ -208,12 +208,12 @@ def setup_prod(project: str, sites, email: str, version: str = None, image = Non
 			sys.exit(1)
 
 		for sitename in sites:
-			create_site(sitename, project, db_pass, admin_pass)
+			create_site(sitename, project, db_pass, admin_pass, apps)
 
 	else:
 		install_docker()
 		clone_frappe_docker_repo()
-		setup_prod(project, sites, email, version, image)  # Recursive
+		setup_prod(project, sites, email, version, image, apps)  # Recursive
 
 
 def setup_dev_instance(project: str):
@@ -286,30 +286,34 @@ def create_site(
 	project: str,
 	db_pass: str,
 	admin_pass: str,
+	apps: List[str] = [],
 ):
 	cprint(f"\nCreating site: {sitename} \n", level=3)
+	command = [
+		which("docker"),
+		"compose",
+		"-p",
+		project,
+		"exec",
+		"backend",
+		"bench",
+		"new-site",
+		sitename,
+		"--no-mariadb-socket",
+		"--db-root-password",
+		db_pass,
+		"--admin-password",
+		admin_pass,
+		"--set-default",
+	]
+
+	for app in apps:
+		command.append("--install-app")
+		command.append(app)
 
 	try:
 		subprocess.run(
-			[
-				which("docker"),
-				"compose",
-				"-p",
-				project,
-				"exec",
-				"backend",
-				"bench",
-				"new-site",
-				sitename,
-				"--no-mariadb-socket",
-				"--db-root-password",
-				db_pass,
-				"--admin-password",
-				admin_pass,
-				"--install-app",
-				"erpnext",
-				"--set-default",
-			],
+			command,
 			check=True,
 		)
 		logging.info("New site creation completed")
@@ -330,7 +334,7 @@ def add_build_parser(argparser: argparse.ArgumentParser):
 	build.add_argument(
 		"-r",
 		"--frappe-path",
-		help="Frappe Repository to use, default: https://github.com/frappe/frappe",  # noqa: E501
+		help="Frappe Repository to use, default: https://github.com/frappe/frappe",
 		default="https://github.com/frappe/frappe",
 	)
 	build.add_argument(
@@ -468,6 +472,13 @@ if __name__ == "__main__":
 	parser.add_argument(
 		"-v", "--version", help="ERPNext version to install, defaults to latest stable"
 	)
+	parser.add_argument(
+		"-a",
+		"--app",
+		dest="apps",
+		help="list of app(s) to be installed",
+		action="append",
+	)
 	args = parser.parse_args()
 
 	if args.subcommand == 'build':
@@ -493,6 +504,6 @@ if __name__ == "__main__":
 		if "example.com" in args.email:
 			cprint("Emails with example.com not acceptable", level=1)
 			sys.exit(1)
-		setup_prod(args.project, args.sites, args.email, args.version, args.image)
+		setup_prod(args.project, args.sites, args.email, args.version, args.image, args.apps)
 	else:
 		parser.print_help()
