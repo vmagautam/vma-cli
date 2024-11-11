@@ -768,8 +768,8 @@ if __name__ == "__main__":
         logging.info("Running Development Setup")
         setup_dev_instance(args.project)
     elif args.subcommand == "upgrade":
-        cprint("\nSetting Up Development Instance\n", level=2)
-        logging.info("Running Development Setup")
+        cprint("\nUpgrading Production Instance\n", level=2)
+        logging.info("Upgrading Development Setup")
         update_prod(
             project=args.project,
             version=args.version,
