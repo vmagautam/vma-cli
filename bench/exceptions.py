@@ -33,10 +33,5 @@ class CannotUpdateReleaseBench(ValidationError):
 class FeatureDoesNotExistError(CommandFailedError):
 	pass
 
-
-class NotInBenchDirectoryError(Exception):
-	pass
-
-
 class VersionNotFound(Exception):
 	pass
