@@ -283,7 +283,7 @@ class BenchApps(MutableSequence):
 			]
 			self.apps.remove("frappe")
 			self.apps.insert(0, "frappe")
-		except FileNotFoundError:
+		except (FileNotFoundError, ValueError):
 			self.apps = []
 
 	def __getitem__(self, key):
