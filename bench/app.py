@@ -23,7 +23,6 @@ import semantic_version as sv
 
 # imports - module imports
 import bench
-from bench.exceptions import NotInBenchDirectoryError
 from bench.utils import (
 	UNSET_ARG,
 	fetch_details_from_tag,
@@ -706,10 +705,12 @@ def get_app(
 
 	if not is_bench_directory(bench_path):
 		if not init_bench:
-			raise NotInBenchDirectoryError(
+			click.secho(
 				f"{os.path.realpath(bench_path)} is not a valid bench directory. "
-				"Run with --init-bench if you'd like to create a Bench too."
+				"Run with --init-bench if you'd like to create a Bench too.",
+				fg="red",
 			)
+			sys.exit(1)
 
 		from bench.utils.system import init
 
@@ -851,9 +852,11 @@ def install_resolved_deps(
 
 def new_app(app, no_git=None, bench_path="."):
 	if bench.FRAPPE_VERSION in (0, None):
-		raise NotInBenchDirectoryError(
-			f"{os.path.realpath(bench_path)} is not a valid bench directory."
+		click.secho(
+			f"{os.path.realpath(bench_path)} is not a valid bench directory.",
+			fg="red",
 		)
+		sys.exit(1)
 
 	# For backwards compatibility
 	app = app.lower().replace(" ", "_").replace("-", "_")

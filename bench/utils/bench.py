@@ -114,10 +114,11 @@ def _generate_dev_deps_pattern(pyproject_path):
 		from tomllib import loads
 
 	requirements_pattern = ""
-	pyroject_config = loads(open(pyproject_path).read())
+	with open(pyproject_path) as f:
+		pyproject_config = loads(f.read())
 
 	with contextlib.suppress(KeyError):
-		for pkg, version in pyroject_config["tool"]["bench"]["dev-dependencies"].items():
+		for pkg, version in pyproject_config["tool"]["bench"]["dev-dependencies"].items():
 			op = "==" if "=" not in version else ""
 			requirements_pattern += f"{pkg}{op}{version} "
 	return requirements_pattern
