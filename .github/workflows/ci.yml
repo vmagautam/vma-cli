@@ -41,10 +41,10 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 18
       - run: |
-          wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb;
-          sudo apt install ./wkhtmltox_0.12.6-1.focal_amd64.deb;
+          wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.jammy_amd64.deb;
+          sudo apt install ./wkhtmltox_0.12.6.1-2.jammy_amd64.deb;
           sudo apt install redis-server
 
           python -m pip install -U --no-cache-dir --force-reinstall urllib3 pyOpenSSL ndg-httpsclient pyasn1 wheel setuptools pip;
@@ -78,10 +78,10 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 18
       - run: |
-          wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb;
-          sudo apt install ./wkhtmltox_0.12.6-1.focal_amd64.deb;
+          wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.jammy_amd64.deb;
+          sudo apt install ./wkhtmltox_0.12.6.1-2.jammy_amd64.deb;
           sudo apt install redis-server
 
           python -m pip install -U --no-cache-dir --force-reinstall urllib3 pyOpenSSL ndg-httpsclient pyasn1 wheel setuptools pip;
@@ -121,8 +121,8 @@ jobs:
           node-version: 18
 
       - run: |
-          wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb;
-          sudo apt install ./wkhtmltox_0.12.6-1.focal_amd64.deb;
+          wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.jammy_amd64.deb;
+          sudo apt install ./wkhtmltox_0.12.6.1-2.jammy_amd64.deb;
           sudo apt install redis-server
 
           python -m pip install -U --no-cache-dir --force-reinstall urllib3 pyOpenSSL ndg-httpsclient pyasn1 wheel setuptools pip;
