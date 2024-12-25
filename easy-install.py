@@ -527,7 +527,12 @@ def add_setup_options(parser: argparse.ArgumentParser):
 
 def add_common_parser(parser: argparse.ArgumentParser):
     parser = add_project_option(parser)
-    parser.add_argument("-g", "--cronstring", help="Cronstring", default="@every 6h")
+    parser.add_argument(
+        "-g",
+        "--cronstring",
+        help='Backup Cronstring, default: "@every 6h"',
+        default="@every 6h",
+    )
     parser.add_argument("-i", "--image", help="Full Image Name")
     parser.add_argument(
         "-m", "--http-port", help="Http port in case of no-ssl", default="8080"

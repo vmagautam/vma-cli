@@ -97,6 +97,8 @@ options:
   -h, --help            show this help message and exit
   -n PROJECT, --project PROJECT
                         Project Name
+  -g, --cronstring CRONSTRING
+                        Backup Cronstring, default: "@every 6h"
   -i IMAGE, --image IMAGE
                         Full Image Name
   -q, --no-ssl          No https
@@ -138,6 +140,8 @@ options:
   -h, --help            show this help message and exit
   -n PROJECT, --project PROJECT
                         Project Name
+  -g, --cronstring CRONSTRING
+                        Backup Cronstring, default: "@every 6h"
   -i IMAGE, --image IMAGE
                         Full Image Name
   -q, --no-ssl          No https
@@ -163,6 +167,8 @@ options:
   -h, --help            show this help message and exit
   -n PROJECT, --project PROJECT
                         Project Name
+  -g, --cronstring CRONSTRING
+                        Backup Cronstring, default: "@every 6h"
   -i IMAGE, --image IMAGE
                         Full Image Name
   -q, --no-ssl          No https
