@@ -78,6 +78,7 @@ def write_to_env(
     db_pass: str,
     admin_pass: str,
     email: str,
+    cronstring: str,
     erpnext_version: str = None,
     http_port: str = None,
 ) -> None:
@@ -97,6 +98,7 @@ def write_to_env(
         f"SITE_ADMIN_PASS={admin_pass}\n",
         f"SITES={quoted_sites}\n",
         "PULL_POLICY=missing\n",
+        f'BACKUP_CRONSTRING="{cronstring}"',
     ]
 
     if http_port:
@@ -125,6 +127,7 @@ def start_prod(
     project: str,
     sites: List[str] = [],
     email: str = None,
+    cronstring: str = None,
     version: str = None,
     image: str = None,
     is_https: bool = True,
@@ -156,6 +159,7 @@ def start_prod(
                 db_pass=db_pass,
                 admin_pass=admin_pass,
                 email=email,
+                cronstring=cronstring,
                 erpnext_version=version,
                 http_port=http_port if not is_https and http_port else None,
             )
@@ -180,6 +184,7 @@ def start_prod(
                 db_pass=db_pass,
                 admin_pass=admin_pass,
                 email=email,
+                cronstring=cronstring,
                 erpnext_version=version,
                 http_port=http_port if not is_https and http_port else None,
             )
@@ -202,6 +207,8 @@ def start_prod(
                     if is_https
                     else "overrides/compose.noproxy.yaml"
                 ),
+                "-f",
+                "overrides/compose.backup-cron.yaml",
                 "--env-file",
                 ".env",
                 "config",
@@ -258,6 +265,7 @@ def setup_prod(
     project: str,
     sites: List[str],
     email: str,
+    cronstring: str,
     version: str = None,
     image: str = None,
     apps: List[str] = [],
@@ -271,6 +279,7 @@ def setup_prod(
         project=project,
         sites=sites,
         email=email,
+        cronstring=cronstring,
         version=version,
         image=image,
         is_https=is_https,
@@ -298,7 +307,8 @@ def setup_prod(
 def update_prod(
     project: str,
     version: str = None,
-    image=None,
+    image: str = None,
+    cronstring: str = None,
     is_https: bool = False,
     http_port: str = None,
 ) -> None:
@@ -306,6 +316,7 @@ def update_prod(
         project=project,
         version=version,
         image=image,
+        cronstring=cronstring,
         is_https=is_https,
         http_port=http_port,
     )
@@ -516,11 +527,12 @@ def add_setup_options(parser: argparse.ArgumentParser):
 
 def add_common_parser(parser: argparse.ArgumentParser):
     parser = add_project_option(parser)
+    parser.add_argument("-g", "--cronstring", help="Cronstring", default="@every 6h")
     parser.add_argument("-i", "--image", help="Full Image Name")
-    parser.add_argument("-q", "--no-ssl", action="store_true", help="No https")
     parser.add_argument(
         "-m", "--http-port", help="Http port in case of no-ssl", default="8080"
     )
+    parser.add_argument("-q", "--no-ssl", action="store_true", help="No https")
     parser.add_argument(
         "-v",
         "--version",
@@ -567,8 +579,8 @@ def add_build_parser(subparsers: argparse.ArgumentParser):
     parser.add_argument(
         "-c",
         "--containerfile",
-        help="Path to Containerfile: images/layered/Containerfile",
-        default="images/layered/Containerfile",
+        help="Path to Containerfile: images/custom/Containerfile",
+        default="images/custom/Containerfile",
     )
     parser.add_argument(
         "-y",
@@ -750,7 +762,7 @@ if __name__ == "__main__":
     elif args.subcommand == "deploy":
         cprint("\nSetting Up Production Instance\n", level=2)
         logging.info("Running Production Setup")
-        if "example.com" in args.email:
+        if args.email and "example.com" in args.email:
             cprint("Emails with example.com not acceptable", level=1)
             sys.exit(1)
         setup_prod(
@@ -758,6 +770,7 @@ if __name__ == "__main__":
             sites=args.sites,
             email=args.email,
             version=args.version,
+            cronstring=args.cronstring,
             image=args.image,
             apps=args.apps,
             is_https=not args.no_ssl,
@@ -775,6 +788,7 @@ if __name__ == "__main__":
             version=args.version,
             image=args.image,
             is_https=not args.no_ssl,
+            cronstring=args.cronstring,
             http_port=args.http_port,
         )
     elif args.subcommand == "exec":
