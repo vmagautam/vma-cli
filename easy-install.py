@@ -744,6 +744,7 @@ if __name__ == "__main__":
                 project=args.project,
                 sites=args.sites,
                 email=args.email,
+                cronstring=args.cronstring,
                 version=args.version,
                 image=args.image,
                 apps=args.apps,
@@ -755,6 +756,7 @@ if __name__ == "__main__":
                 project=args.project,
                 version=args.version,
                 image=args.image,
+                cronstring=args.cronstring,
                 is_https=not args.no_ssl,
                 http_port=args.http_port,
             )
