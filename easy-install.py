@@ -529,8 +529,8 @@ def add_common_parser(parser: argparse.ArgumentParser):
     parser = add_project_option(parser)
     parser.add_argument(
         "-g",
-        "--cronstring",
-        help='Backup Cronstring, default: "@every 6h"',
+        "--backup-schedule",
+        help='Backup schedule cronstring, default: "@every 6h"',
         default="@every 6h",
     )
     parser.add_argument("-i", "--image", help="Full Image Name")
@@ -749,7 +749,7 @@ if __name__ == "__main__":
                 project=args.project,
                 sites=args.sites,
                 email=args.email,
-                cronstring=args.cronstring,
+                cronstring=args.backup_schedule,
                 version=args.version,
                 image=args.image,
                 apps=args.apps,
@@ -761,7 +761,7 @@ if __name__ == "__main__":
                 project=args.project,
                 version=args.version,
                 image=args.image,
-                cronstring=args.cronstring,
+                cronstring=args.backup_schedule,
                 is_https=not args.no_ssl,
                 http_port=args.http_port,
             )
@@ -777,7 +777,7 @@ if __name__ == "__main__":
             sites=args.sites,
             email=args.email,
             version=args.version,
-            cronstring=args.cronstring,
+            cronstring=args.backup_schedule,
             image=args.image,
             apps=args.apps,
             is_https=not args.no_ssl,
@@ -795,7 +795,7 @@ if __name__ == "__main__":
             version=args.version,
             image=args.image,
             is_https=not args.no_ssl,
-            cronstring=args.cronstring,
+            cronstring=args.backup_schedule,
             http_port=args.http_port,
         )
     elif args.subcommand == "exec":
