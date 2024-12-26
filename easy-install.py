@@ -172,8 +172,10 @@ def start_prod(
     db_pass = ""
     custom_image = None
     custom_tag = None
+
     if image:
-        [custom_image, custom_tag] = image.split(":")
+        custom_image = image
+        custom_tag = version
 
     with open(compose_file_name, "w") as f:
         # Writing to compose file
@@ -210,9 +212,6 @@ def start_prod(
             email = env["LETSENCRYPT_EMAIL"]
             custom_image = env.get("CUSTOM_IMAGE")
             custom_tag = env.get("CUSTOM_TAG")
-
-            if image:
-                [custom_image, custom_tag] = image.split(":")
 
             version = env.get("ERPNEXT_VERSION", version)
             write_to_env(
