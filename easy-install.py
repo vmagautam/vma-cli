@@ -2,10 +2,10 @@
 
 import argparse
 import base64
-import fileinput
 import logging
 import os
 import platform
+import shutil
 import subprocess
 import sys
 import time
@@ -73,7 +73,8 @@ def get_from_env(dir, file) -> Dict:
 
 
 def write_to_env(
-    wd: str,
+    frappe_docker_dir: str,
+    out_file: str,
     sites: List[str],
     db_pass: str,
     admin_pass: str,
@@ -81,9 +82,11 @@ def write_to_env(
     cronstring: str,
     erpnext_version: str = None,
     http_port: str = None,
+    custom_image: str = None,
+    custom_tag: str = None,
 ) -> None:
     quoted_sites = ",".join([f"`{site}`" for site in sites]).strip(",")
-    example_env = get_from_env(wd, "example.env")
+    example_env = get_from_env(frappe_docker_dir, "example.env")
     erpnext_version = erpnext_version or example_env["ERPNEXT_VERSION"]
     env_file_lines = [
         # defaults to latest version of ERPNext
@@ -98,13 +101,19 @@ def write_to_env(
         f"SITE_ADMIN_PASS={admin_pass}\n",
         f"SITES={quoted_sites}\n",
         "PULL_POLICY=missing\n",
-        f'BACKUP_CRONSTRING="{cronstring}"',
+        f'BACKUP_CRONSTRING="{cronstring}"\n',
     ]
 
     if http_port:
         env_file_lines.append(f"HTTP_PUBLISH_PORT={http_port}\n")
 
-    with open(os.path.join(wd, ".env"), "w") as f:
+    if custom_image:
+        env_file_lines.append(f"CUSTOM_IMAGE={custom_image}\n")
+
+    if custom_tag:
+        env_file_lines.append(f"CUSTOM_TAG={custom_tag}\n")
+
+    with open(os.path.join(out_file), "w") as f:
         f.writelines(env_file_lines)
 
 
@@ -119,8 +128,12 @@ def generate_pass(length: int = 12) -> str:
     return secrets.token_hex(math.ceil(length / 2))[:length]
 
 
+def get_frappe_docker_path():
+    return os.path.join(os.getcwd(), "frappe_docker")
+
+
 def check_repo_exists() -> bool:
-    return os.path.exists(os.path.join(os.getcwd(), "frappe_docker"))
+    return os.path.exists(get_frappe_docker_path())
 
 
 def start_prod(
@@ -141,20 +154,37 @@ def start_prod(
         os.path.expanduser("~"),
         f"{project}-compose.yml",
     )
-    docker_repo_path = os.path.join(os.getcwd(), "frappe_docker")
+
+    env_file_dir = os.path.expanduser("~")
+    env_file_name = f"{project}.env"
+    env_file_path = os.path.join(
+        os.path.expanduser("~"),
+        env_file_name,
+    )
+
+    frappe_docker_dir = get_frappe_docker_path()
+
     cprint(
-        "\nPlease refer to .example.env file in the frappe_docker folder to know which keys to set\n\n",
+        f"\nPlease refer to {env_file_path} to know which keys to set\n\n",
         level=3,
     )
     admin_pass = ""
     db_pass = ""
+    custom_image = None
+    custom_tag = None
+
+    if image:
+        custom_image = image
+        custom_tag = version
+
     with open(compose_file_name, "w") as f:
         # Writing to compose file
-        if not os.path.exists(os.path.join(docker_repo_path, ".env")):
+        if not os.path.exists(env_file_path):
             admin_pass = generate_pass()
             db_pass = generate_pass(9)
             write_to_env(
-                wd=docker_repo_path,
+                frappe_docker_dir=frappe_docker_dir,
+                out_file=env_file_path,
                 sites=sites,
                 db_pass=db_pass,
                 admin_pass=admin_pass,
@@ -162,24 +192,31 @@ def start_prod(
                 cronstring=cronstring,
                 erpnext_version=version,
                 http_port=http_port if not is_https and http_port else None,
+                custom_image=custom_image,
+                custom_tag=custom_tag,
             )
             cprint(
                 "\nA .env file is generated with basic configs. Please edit it to fit to your needs \n",
                 level=3,
             )
             with open(
-                os.path.join(os.path.expanduser("~"), "passwords.txt"), "w"
+                os.path.join(os.path.expanduser("~"), f"{project}-passwords.txt"), "w"
             ) as en:
                 en.writelines(f"ADMINISTRATOR_PASSWORD={admin_pass}\n")
                 en.writelines(f"MARIADB_ROOT_PASSWORD={db_pass}\n")
         else:
-            env = get_from_env(docker_repo_path, ".env")
+            env = get_from_env(env_file_dir, env_file_name)
             sites = env["SITES"].replace("`", "").split(",") if env["SITES"] else []
             db_pass = env["DB_PASSWORD"]
             admin_pass = env["SITE_ADMIN_PASS"]
             email = env["LETSENCRYPT_EMAIL"]
+            custom_image = env.get("CUSTOM_IMAGE")
+            custom_tag = env.get("CUSTOM_TAG")
+
+            version = env.get("ERPNEXT_VERSION", version)
             write_to_env(
-                wd=docker_repo_path,
+                frappe_docker_dir=frappe_docker_dir,
+                out_file=env_file_path,
                 sites=sites,
                 db_pass=db_pass,
                 admin_pass=admin_pass,
@@ -187,6 +224,8 @@ def start_prod(
                 cronstring=cronstring,
                 erpnext_version=version,
                 http_port=http_port if not is_https and http_port else None,
+                custom_image=custom_image,
+                custom_tag=custom_tag,
             )
 
         try:
@@ -210,13 +249,13 @@ def start_prod(
                 "-f",
                 "overrides/compose.backup-cron.yaml",
                 "--env-file",
-                ".env",
+                env_file_path,
                 "config",
             ]
 
             subprocess.run(
                 command,
-                cwd=docker_repo_path,
+                cwd=frappe_docker_dir,
                 stdout=f,
                 check=True,
             )
@@ -225,13 +264,6 @@ def start_prod(
             logging.error("Docker Compose generation failed", exc_info=True)
             cprint("\nGenerating Compose File failed\n")
             sys.exit(1)
-
-    # Use custom image
-    if image:
-        for line in fileinput.input(compose_file_name, inplace=True):
-            if "image: frappe/erpnext" in line:
-                line = line.replace("image: frappe/erpnext", f"image: {image}")
-            sys.stdout.write(line)
 
     try:
         # Starting with generated compose file
@@ -299,7 +331,7 @@ def setup_prod(
     )
     passwords_file_path = os.path.join(
         os.path.expanduser("~"),
-        "passwords.txt",
+        f"{project}-passwords.txt",
     )
     cprint(f"Passwords are stored in {passwords_file_path}", level=3)
 
@@ -341,7 +373,7 @@ def setup_dev_instance(project: str):
         ]
         subprocess.run(
             command,
-            cwd=os.path.join(os.getcwd(), "frappe_docker"),
+            cwd=get_frappe_docker_path(),
             check=True,
         )
         cprint(
@@ -543,6 +575,12 @@ def add_common_parser(parser: argparse.ArgumentParser):
         "--version",
         help="ERPNext or image version to install, defaults to latest stable",
     )
+    parser.add_argument(
+        "-l",
+        "--force-pull",
+        action="store_true",
+        help="Force pull frappe_docker",
+    )
     return parser
 
 
@@ -732,6 +770,14 @@ if __name__ == "__main__":
         sys.exit(1)
 
     args = parser.parse_args()
+
+    if (
+        args.subcommand != "exec"
+        and args.force_pull
+        and os.path.exists(get_frappe_docker_path())
+    ):
+        cprint("\nForce pull frappe_docker again\n", level=2)
+        shutil.rmtree(get_frappe_docker_path(), ignore_errors=True)
 
     if args.subcommand == "build":
         build_image(
