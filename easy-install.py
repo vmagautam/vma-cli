@@ -771,7 +771,11 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    if args.force_pull and os.path.exists(get_frappe_docker_path()):
+    if (
+        args.subcommand != "exec"
+        and args.force_pull
+        and os.path.exists(get_frappe_docker_path())
+    ):
         cprint("\nForce pull frappe_docker again\n", level=2)
         shutil.rmtree(get_frappe_docker_path(), ignore_errors=True)
 
