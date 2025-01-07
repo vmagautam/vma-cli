@@ -298,6 +298,9 @@ def patch_sites(bench_path="."):
 
 
 def restart_supervisor_processes(bench_path=".", web_workers=False, _raise=False):
+	if which("supervisorctl") is None:
+		return
+
 	from bench.bench import Bench
 
 	bench = Bench(bench_path)
