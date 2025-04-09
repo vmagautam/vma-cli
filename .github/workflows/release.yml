@@ -21,8 +21,7 @@ jobs:
       - name: Setup dependencies
         run: |
           npm install @semantic-release/git @semantic-release/exec --no-save
-          python3 -m pip install wheel twine
-          python3 -m pip install git+https://github.com/pypa/hatch@hatch-v1.9.2
+          python3 -m pip install wheel twine hatch==1.14.1
 
       - name: Create Release
         env:
