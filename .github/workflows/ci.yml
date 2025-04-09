@@ -123,7 +123,7 @@ jobs:
       - run: |
           wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.jammy_amd64.deb;
           sudo apt install ./wkhtmltox_0.12.6.1-2.jammy_amd64.deb;
-          sudo apt install redis-server
+          sudo apt install redis-server pkg-config
 
           python -m pip install -U --no-cache-dir --force-reinstall urllib3 pyOpenSSL ndg-httpsclient pyasn1 wheel setuptools pip;
           python -m pip install -U -e ${GITHUB_WORKSPACE};
