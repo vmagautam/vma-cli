@@ -34,6 +34,7 @@ from bench.utils.bench import (
 )
 from bench.utils.render import job, step
 from bench.utils.app import get_current_version
+from bench.utils.system import get_mariadb_pkgconfig_path, check_pkg_config
 from bench.app import is_git_repo
 
 
@@ -44,8 +45,8 @@ logger = logging.getLogger(bench.PROJECT_NAME)
 
 
 class Base:
-	def run(self, cmd, cwd=None, _raise=True):
-		return exec_cmd(cmd, cwd=cwd or self.cwd, _raise=_raise)
+	def run(self, cmd, cwd=None, _raise=True, env=None):
+		return exec_cmd(cmd, cwd=cwd or self.cwd, _raise=_raise, env=env)
 
 
 class Validator:
@@ -367,10 +368,21 @@ class BenchSetup(Base):
 		self.wheel()
 
 		if os.path.exists(frappe):
-			self.run(
-				f"{self.bench.python} -m pip install {quiet_flag} --upgrade -e {frappe}",
-				cwd=self.bench.name,
-			)
+				env = None
+
+				from bench.utils.app import get_current_frappe_version
+				if get_current_frappe_version(self.bench.name) >= 16:
+					check_pkg_config()
+					# macOS needs a custom PKG_CONFIG_DIR for frappe v16+
+					if sys.platform == "darwin":
+						env = {
+							"PKG_CONFIG_PATH": get_mariadb_pkgconfig_path(),
+						}
+
+				self.run(
+					f"{self.bench.python} -m pip install {quiet_flag} --upgrade -e {frappe}",
+					cwd=self.bench.name, env=env,
+				)
 
 	@step(title="Setting Up Bench Config", success="Bench Config Set Up")
 	def config(self, redis=True, procfile=True, additional_config=None):
@@ -480,7 +492,18 @@ class BenchSetup(Base):
 		for app in apps:
 			app_path = os.path.join(self.bench.name, "apps", app)
 			log(f"\nInstalling python dependencies for {app}", level=3, no_log=True)
-			self.run(f"{self.bench.python} -m pip install {quiet_flag} --upgrade -e {app_path}")
+			env = None
+			# macOS needs a custom PKG_CONFIG_DIR for frappe v16+
+			from bench.utils.app import get_current_frappe_version
+			if app == "frappe":
+				if get_current_frappe_version(self.bench.name) >= 16:
+					check_pkg_config()
+				if sys.platform == "darwin":
+					env = {
+						"PKG_CONFIG_PATH": get_mariadb_pkgconfig_path(),
+					}
+
+			self.run(f"{self.bench.python} -m pip install {quiet_flag} --upgrade -e {app_path}", env=env)
 
 	def node(self, apps=None):
 		"""Install and upgrade Node dependencies for specified / all apps on given Bench"""
