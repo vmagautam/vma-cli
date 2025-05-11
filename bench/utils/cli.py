@@ -1,6 +1,6 @@
 from typing import List
 import click
-from click.core import _check_multicommand
+from click.core import _check_nested_chain
 
 
 def print_bench_version(ctx, param, value):
@@ -25,7 +25,7 @@ class MultiCommandGroup(click.Group):
 		name = name or cmd.name
 		if name is None:
 			raise TypeError("Command has no name.")
-		_check_multicommand(self, name, cmd, register=True)
+		_check_nested_chain(self, name, cmd, register=True)
 
 		try:
 			self.commands[name] = cmd
