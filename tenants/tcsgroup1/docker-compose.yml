@@ -1,0 +1,80 @@
+networks:
+  tcsgroup1: {}
+services:
+  tcsgroup1_backend:
+    build: backend
+    command: sh -c "sleep 10 && npm run deploy"
+    container_name: tcsgroup1_backend
+    depends_on:
+      tcsgroup1_db:
+        condition: service_healthy
+      tcsgroup1_redis:
+        condition: service_started
+    env_file: backend/.env
+    extra_hosts:
+    - tcsgroup1.vsync:127.0.0.1
+    networks:
+    - tcsgroup1
+    ports:
+    - 5486:5004
+  tcsgroup1_db:
+    container_name: tcsgroup1_db
+    environment:
+      POSTGRES_DB: tcsgroup1_master
+      POSTGRES_PASSWORD: i6mho90bha8j7jy9
+      POSTGRES_USER: tcsgroup1_user
+    healthcheck:
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      test:
+      - CMD-SHELL
+      - bash -c 'PGUSER=$POSTGRES_USER pg_isready'
+      timeout: 5s
+    image: postgres:15
+    networks:
+    - tcsgroup1
+    volumes:
+    - tcsgroup1_db_data:/var/lib/postgresql/data
+  tcsgroup1_frontend:
+    build: frontend
+    container_name: tcsgroup1_frontend
+    depends_on:
+    - tcsgroup1_backend
+    env_file: frontend/.env
+    extra_hosts:
+    - tcsgroup1.vsync:127.0.0.1
+    networks:
+    - tcsgroup1
+    ports:
+    - 6486:80
+  tcsgroup1_nginx:
+    container_name: tcsgroup1_nginx
+    depends_on:
+    - tcsgroup1_backend
+    - tcsgroup1_frontend
+    extra_hosts:
+    - tcsgroup1.vsync:127.0.0.1
+    image: nginx:latest
+    networks:
+    - tcsgroup1
+    ports:
+    - 8495:80
+    restart: on-failure
+    volumes:
+    - /Users/imjgautam/Desktop/MERN & PERN/bench/tenants/tcsgroup1/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+  tcsgroup1_redis:
+    container_name: tcsgroup1_redis
+    environment:
+      REDIS_PASSWORD: d319629ejet6si4a
+    image: redis:7
+    networks:
+    - tcsgroup1
+    volumes:
+    - tcsgroup1_redis_data:/var/lib/redis/data
+version: '3.8'
+volumes:
+  tcsgroup1_db_data: {}
+  tcsgroup1_nginx_config:
+    driver: local
+  tcsgroup1_redis_data: {}

@@ -1,62 +1,20 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "frappe-bench"
-description = "CLI to manage Multi-tenant deployments for Frappe apps"
-readme = "README.md"
-license = "GPL-3.0-only"
-requires-python = ">=3.8"
-authors = [
-    { name = "Frappe Technologies Pvt Ltd", email = "developers@frappe.io" },
-]
-classifiers = [
-    "Development Status :: 5 - Production/Stable",
-    "Environment :: Console",
-    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
-    "Natural Language :: English",
-    "Operating System :: MacOS",
-    "Operating System :: OS Independent",
-    "Topic :: Software Development :: Build Tools",
-    "Topic :: Software Development :: User Interfaces",
-    "Topic :: System :: Installation/Setup",
-]
+name = "vma"
+version = "1.0.0"
+description = "VMA Multi-Tenant Deployment CLI"
+requires-python = ">=3.7"
 dependencies = [
-    "Click~=8.2.0",
-    "GitPython~=3.1.30",
-    "honcho",
-    "Jinja2~=3.1.3",
-    "python-crontab~=2.6.0",
-    "requests~=2.32.3",
-    "semantic-version~=2.10.0",
-    "setuptools>=71.0.0",
-    "tomli;python_version<'3.11'",
-]
-dynamic = [
-    "version",
+    "click>=8.0,<9.0",
+    "jinja2",
+    "PyYAML",
+    "requests",
+    "urllib3",
+    "chardet",
 ]
 
 [project.scripts]
-bench = "bench.cli:cli"
-
-[project.urls]
-Changelog = "https://github.com/frappe/bench/releases"
-Documentation = "https://frappeframework.com/docs/user/en/bench"
-Homepage = "https://frappe.io/bench"
-Source = "https://github.com/frappe/bench"
-
-[build-system]
-requires = [
-    "hatchling==1.27.0",
-]
-build-backend = "hatchling.build"
-
-[tool.hatch.version]
-path = "bench/__init__.py"
-
-[tool.hatch.build.targets.sdist]
-include = [
-  "/bench"
-]
-
-[tool.hatch.build.targets.wheel]
-include = [
-  "/bench"
-]
+vma = "vma.cli:cli"
