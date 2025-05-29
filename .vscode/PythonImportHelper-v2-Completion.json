@@ -1,0 +1,478 @@
+[
+    {
+        "label": "click",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "click",
+        "description": "click",
+        "detail": "click",
+        "documentation": {}
+    },
+    {
+        "label": "run",
+        "importPath": "vma.utils",
+        "description": "vma.utils",
+        "isExtraImport": true,
+        "detail": "vma.utils",
+        "documentation": {}
+    },
+    {
+        "label": "run",
+        "importPath": "vma.utils",
+        "description": "vma.utils",
+        "isExtraImport": true,
+        "detail": "vma.utils",
+        "documentation": {}
+    },
+    {
+        "label": "requests",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "requests",
+        "description": "requests",
+        "detail": "requests",
+        "documentation": {}
+    },
+    {
+        "label": "vma_command",
+        "importPath": "vma.commands",
+        "description": "vma.commands",
+        "isExtraImport": true,
+        "detail": "vma.commands",
+        "documentation": {}
+    },
+    {
+        "label": "argparse",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "argparse",
+        "description": "argparse",
+        "detail": "argparse",
+        "documentation": {}
+    },
+    {
+        "label": "base64",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "base64",
+        "description": "base64",
+        "detail": "base64",
+        "documentation": {}
+    },
+    {
+        "label": "logging",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "logging",
+        "description": "logging",
+        "detail": "logging",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "platform",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "platform",
+        "description": "platform",
+        "detail": "platform",
+        "documentation": {}
+    },
+    {
+        "label": "shutil",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "shutil",
+        "description": "shutil",
+        "detail": "shutil",
+        "documentation": {}
+    },
+    {
+        "label": "move",
+        "importPath": "shutil",
+        "description": "shutil",
+        "isExtraImport": true,
+        "detail": "shutil",
+        "documentation": {}
+    },
+    {
+        "label": "unpack_archive",
+        "importPath": "shutil",
+        "description": "shutil",
+        "isExtraImport": true,
+        "detail": "shutil",
+        "documentation": {}
+    },
+    {
+        "label": "which",
+        "importPath": "shutil",
+        "description": "shutil",
+        "isExtraImport": true,
+        "detail": "shutil",
+        "documentation": {}
+    },
+    {
+        "label": "subprocess",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "subprocess",
+        "description": "subprocess",
+        "detail": "subprocess",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "urllib.request",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "urllib.request",
+        "description": "urllib.request",
+        "detail": "urllib.request",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "setup",
+        "importPath": "setuptools",
+        "description": "setuptools",
+        "isExtraImport": true,
+        "detail": "setuptools",
+        "documentation": {}
+    },
+    {
+        "label": "find_packages",
+        "importPath": "setuptools",
+        "description": "setuptools",
+        "isExtraImport": true,
+        "detail": "setuptools",
+        "documentation": {}
+    },
+    {
+        "label": "docker_logs",
+        "kind": 2,
+        "importPath": "vma.commands.docker_logs",
+        "description": "vma.commands.docker_logs",
+        "peekOfCode": "def docker_logs(tenant, app):\n    \"\"\"Show Docker logs for a tenant/app.\"\"\"\n    if app:\n        print(f\"Showing logs for {tenant}/{app}\")\n        run(f\"docker logs {tenant}_{app}\", _raise=False)\n    else:\n        print(f\"Showing logs for all {tenant} containers\")\n        print(f\"\\n--- FRONTEND LOGS ---\")\n        run(f\"docker logs {tenant}_frontend 2>&1 | tail -n 20\", _raise=False)\n        print(f\"\\n--- BACKEND LOGS ---\")",
+        "detail": "vma.commands.docker_logs",
+        "documentation": {}
+    },
+    {
+        "label": "list_github_repos",
+        "kind": 2,
+        "importPath": "vma.commands.github",
+        "description": "vma.commands.github",
+        "peekOfCode": "def list_github_repos(username):\n    \"\"\"List all public repositories for a GitHub user.\"\"\"\n    url = f\"https://api.github.com/users/{username}/repos\"\n    response = requests.get(url)\n    if response.status_code == 200:\n        repos = response.json()\n        click.echo(f\"Found {len(repos)} repositories for {username}:\")\n        for repo in repos:\n            click.echo(f\"- {repo['name']}: {repo['html_url']}\")\n    else:",
+        "detail": "vma.commands.github",
+        "documentation": {}
+    },
+    {
+        "label": "logs",
+        "kind": 2,
+        "importPath": "vma.commands.logs",
+        "description": "vma.commands.logs",
+        "peekOfCode": "def logs(tenant, app):\n    \"\"\"Show logs for a tenant/app.\"\"\"\n    if app:\n        print(f\"Showing logs for {tenant}/{app}\")\n        run(f\"docker logs {tenant}_{app}\", _raise=False)\n    else:\n        print(f\"Showing logs for all {tenant} containers\")\n        run(f\"docker logs {tenant}_frontend 2>&1 | tail -n 20\", _raise=False)\n        run(f\"docker logs {tenant}_backend 2>&1 | tail -n 20\", _raise=False)\n        run(f\"docker logs {tenant}_nginx 2>&1 | tail -n 20\", _raise=False)",
+        "detail": "vma.commands.logs",
+        "documentation": {}
+    },
+    {
+        "label": "get_plugin_for_path",
+        "kind": 2,
+        "importPath": "vma.core.plugins",
+        "description": "vma.core.plugins",
+        "peekOfCode": "def get_plugin_for_path(path):\n    \"\"\"Get the appropriate plugin for a given path.\"\"\"\n    # Implementation would go here\n    return None\ndef list_plugins():\n    \"\"\"List all available plugins.\"\"\"\n    # Implementation would go here\n    return []",
+        "detail": "vma.core.plugins",
+        "documentation": {}
+    },
+    {
+        "label": "list_plugins",
+        "kind": 2,
+        "importPath": "vma.core.plugins",
+        "description": "vma.core.plugins",
+        "peekOfCode": "def list_plugins():\n    \"\"\"List all available plugins.\"\"\"\n    # Implementation would go here\n    return []",
+        "detail": "vma.core.plugins",
+        "documentation": {}
+    },
+    {
+        "label": "cli",
+        "kind": 2,
+        "importPath": "vma.cli",
+        "description": "vma.cli",
+        "peekOfCode": "def cli():\n    \"\"\"Entrypoint for the universal deployment CLI.\"\"\"\n    vma_command()\nif __name__ == \"__main__\":\n    cli()",
+        "detail": "vma.cli",
+        "documentation": {}
+    },
+    {
+        "label": "cprint",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def cprint(*args, level: int = 1):\n    \"\"\"\n    logs colorful messages\n    level = 1 : RED\n    level = 2 : GREEN\n    level = 3 : YELLOW\n    default level = 1\n    \"\"\"\n    CRED = \"\\033[31m\"\n    CGRN = \"\\33[92m\"",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "clone_frappe_docker_repo",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def clone_frappe_docker_repo() -> None:\n    try:\n        urllib.request.urlretrieve(\n            \"https://github.com/frappe/frappe_docker/archive/refs/heads/main.zip\",\n            \"frappe_docker.zip\",\n        )\n        logging.info(\"Downloaded frappe_docker zip file from GitHub\")\n        unpack_archive(\"frappe_docker.zip\", \".\")\n        # Unzipping the frappe_docker.zip creates a folder \"frappe_docker-main\"\n        move(\"frappe_docker-main\", \"frappe_docker\")",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "get_from_env",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def get_from_env(dir, file) -> Dict:\n    env_vars = {}\n    with open(os.path.join(dir, file)) as f:\n        for line in f:\n            if line.startswith(\"#\") or not line.strip():\n                continue\n            key, value = line.strip().split(\"=\", 1)\n            env_vars[key] = value\n    return env_vars\ndef write_to_env(",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "write_to_env",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def write_to_env(\n    frappe_docker_dir: str,\n    out_file: str,\n    sites: List[str],\n    db_pass: str,\n    admin_pass: str,\n    email: str,\n    cronstring: str,\n    erpnext_version: str = None,\n    http_port: str = None,",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "generate_pass",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def generate_pass(length: int = 12) -> str:\n    \"\"\"Generate random hash using best available randomness source.\"\"\"\n    import math\n    import secrets\n    if not length:\n        length = 56\n    return secrets.token_hex(math.ceil(length / 2))[:length]\ndef get_frappe_docker_path():\n    return os.path.join(os.getcwd(), \"frappe_docker\")\ndef check_repo_exists() -> bool:",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "get_frappe_docker_path",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def get_frappe_docker_path():\n    return os.path.join(os.getcwd(), \"frappe_docker\")\ndef check_repo_exists() -> bool:\n    return os.path.exists(get_frappe_docker_path())\ndef start_prod(\n    project: str,\n    sites: List[str] = [],\n    email: str = None,\n    cronstring: str = None,\n    version: str = None,",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "check_repo_exists",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def check_repo_exists() -> bool:\n    return os.path.exists(get_frappe_docker_path())\ndef start_prod(\n    project: str,\n    sites: List[str] = [],\n    email: str = None,\n    cronstring: str = None,\n    version: str = None,\n    image: str = None,\n    is_https: bool = True,",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "start_prod",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def start_prod(\n    project: str,\n    sites: List[str] = [],\n    email: str = None,\n    cronstring: str = None,\n    version: str = None,\n    image: str = None,\n    is_https: bool = True,\n    http_port: str = None,\n):",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "setup_prod",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def setup_prod(\n    project: str,\n    sites: List[str],\n    email: str,\n    cronstring: str,\n    version: str = None,\n    image: str = None,\n    apps: List[str] = [],\n    is_https: bool = False,\n    http_port: str = None,",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "update_prod",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def update_prod(\n    project: str,\n    version: str = None,\n    image: str = None,\n    cronstring: str = None,\n    is_https: bool = False,\n    http_port: str = None,\n) -> None:\n    start_prod(\n        project=project,",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "setup_dev_instance",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def setup_dev_instance(project: str):\n    if not check_repo_exists():\n        clone_frappe_docker_repo()\n    install_container_runtime()\n    try:\n        command = [\n            \"docker\",\n            \"compose\",\n            \"-f\",\n            \"devcontainer-example/docker-compose.yml\",",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "install_docker",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def install_docker():\n    cprint(\"Docker is not installed, Installing Docker...\", level=3)\n    logging.info(\"Docker not found, installing Docker\")\n    if platform.system() == \"Darwin\" or platform.system() == \"Windows\":\n        cprint(\n            f\"\"\"\n            This script doesn't install Docker on {\"Mac\" if platform.system()==\"Darwin\" else \"Windows\"}.\n            Please go through the Docker Installation docs for your system and run this script again\"\"\"\n        )\n        logging.debug(\"Docker setup failed due to platform is not Linux\")",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "install_container_runtime",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def install_container_runtime(runtime=\"docker\"):\n    if which(runtime) is not None:\n        cprint(runtime.title() + \" is already installed\", level=2)\n        return\n    if runtime == \"docker\":\n        install_docker()\ndef create_site(\n    sitename: str,\n    project: str,\n    db_pass: str,",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "create_site",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def create_site(\n    sitename: str,\n    project: str,\n    db_pass: str,\n    admin_pass: str,\n    apps: List[str] = [],\n):\n    apps = apps or []\n    cprint(f\"\\nCreating site: {sitename} \\n\", level=3)\n    command = [",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "migrate_site",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def migrate_site(project: str):\n    cprint(f\"\\nMigrating sites for {project}\", level=3)\n    exec_command(\n        project=project,\n        command=[\n            \"bench\",\n            \"--site\",\n            \"all\",\n            \"migrate\",\n        ],",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "exec_command",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def exec_command(project: str, command: List[str] = [], interactive_terminal=False):\n    if not command:\n        command = [\"echo\", '\"Please execute a command\"']\n    cprint(f\"\\nExecuting Command:\\n{' '.join(command)}\", level=3)\n    exec_command = [\n        \"docker\",\n        \"compose\",\n        \"-p\",\n        project,\n        \"exec\",",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "add_project_option",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def add_project_option(parser: argparse.ArgumentParser):\n    parser.add_argument(\n        \"-n\",\n        \"--project\",\n        help=\"Project Name\",\n        default=\"frappe\",\n    )\n    return parser\ndef add_setup_options(parser: argparse.ArgumentParser):\n    parser.add_argument(",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "add_setup_options",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def add_setup_options(parser: argparse.ArgumentParser):\n    parser.add_argument(\n        \"-a\",\n        \"--app\",\n        dest=\"apps\",\n        default=[],\n        help=\"list of app(s) to be installed\",\n        action=\"append\",\n    )\n    parser.add_argument(",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "add_common_parser",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def add_common_parser(parser: argparse.ArgumentParser):\n    parser = add_project_option(parser)\n    parser.add_argument(\n        \"-g\",\n        \"--backup-schedule\",\n        help='Backup schedule cronstring, default: \"@every 6h\"',\n        default=\"@every 6h\",\n    )\n    parser.add_argument(\"-i\", \"--image\", help=\"Full Image Name\")\n    parser.add_argument(",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "add_build_parser",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def add_build_parser(subparsers: argparse.ArgumentParser):\n    parser = subparsers.add_parser(\"build\", help=\"Build custom images\")\n    parser = add_common_parser(parser)\n    parser = add_setup_options(parser)\n    parser.add_argument(\n        \"-p\",\n        \"--push\",\n        help=\"Push the built image to registry\",\n        action=\"store_true\",\n    )",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "add_deploy_parser",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def add_deploy_parser(subparsers: argparse.ArgumentParser):\n    parser = subparsers.add_parser(\"deploy\", help=\"Deploy using compose\")\n    parser = add_common_parser(parser)\n    parser = add_setup_options(parser)\ndef add_develop_parser(subparsers: argparse.ArgumentParser):\n    parser = subparsers.add_parser(\"develop\", help=\"Development setup using compose\")\n    parser.add_argument(\n        \"-n\", \"--project\", default=\"frappe\", help=\"Compose project name\"\n    )\ndef add_upgrade_parser(subparsers: argparse.ArgumentParser):",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "add_develop_parser",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def add_develop_parser(subparsers: argparse.ArgumentParser):\n    parser = subparsers.add_parser(\"develop\", help=\"Development setup using compose\")\n    parser.add_argument(\n        \"-n\", \"--project\", default=\"frappe\", help=\"Compose project name\"\n    )\ndef add_upgrade_parser(subparsers: argparse.ArgumentParser):\n    parser = subparsers.add_parser(\"upgrade\", help=\"Upgrade existing project\")\n    parser = add_common_parser(parser)\ndef add_exec_parser(subparsers: argparse.ArgumentParser):\n    parser = subparsers.add_parser(\"exec\", help=\"Exec into existing project\")",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "add_upgrade_parser",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def add_upgrade_parser(subparsers: argparse.ArgumentParser):\n    parser = subparsers.add_parser(\"upgrade\", help=\"Upgrade existing project\")\n    parser = add_common_parser(parser)\ndef add_exec_parser(subparsers: argparse.ArgumentParser):\n    parser = subparsers.add_parser(\"exec\", help=\"Exec into existing project\")\n    parser = add_project_option(parser)\ndef build_image(\n    push: bool,\n    frappe_path: str,\n    frappe_branch: str,",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "add_exec_parser",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def add_exec_parser(subparsers: argparse.ArgumentParser):\n    parser = subparsers.add_parser(\"exec\", help=\"Exec into existing project\")\n    parser = add_project_option(parser)\ndef build_image(\n    push: bool,\n    frappe_path: str,\n    frappe_branch: str,\n    containerfile_path: str,\n    apps_json_path: str,\n    tags: List[str],",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "build_image",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def build_image(\n    push: bool,\n    frappe_path: str,\n    frappe_branch: str,\n    containerfile_path: str,\n    apps_json_path: str,\n    tags: List[str],\n    python_version: str,\n    node_version: str,\n):",
+        "detail": "easy-install",
+        "documentation": {}
+    },
+    {
+        "label": "get_args_parser",
+        "kind": 2,
+        "importPath": "easy-install",
+        "description": "easy-install",
+        "peekOfCode": "def get_args_parser():\n    parser = argparse.ArgumentParser(\n        description=\"Easy install script for Frappe Framework\"\n    )\n    # Setup sub-commands\n    subparsers = parser.add_subparsers(dest=\"subcommand\")\n    # Build command\n    add_build_parser(subparsers)\n    # Deploy command\n    add_deploy_parser(subparsers)",
+        "detail": "easy-install",
+        "documentation": {}
+    }
+]
