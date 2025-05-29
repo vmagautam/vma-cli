@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vma"
+version = "1.0.0"
+description = "VMA Multi-Tenant Deployment CLI"
+requires-python = ">=3.7"
+dependencies = [
+    "click>=8.0,<9.0",
+    "jinja2",
+    "PyYAML",
+    "requests",
+    "urllib3",
+    "chardet",
+]
+
+[project.scripts]
+vma = "vma.cli:cli"

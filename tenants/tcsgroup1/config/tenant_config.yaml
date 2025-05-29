@@ -1,0 +1,11 @@
+backend_port: 5486
+backend_url: http://tcsgroup1.vsync
+db_master_name: tcsgroup1_master
+db_name: tcsgroup1_db
+db_pass: i6mho90bha8j7jy9
+db_transactional_name: tcsgroup1_transactional
+db_user: tcsgroup1_user
+frontend_port: 6486
+nginx_port: 8495
+redis_pass: d319629ejet6si4a
+redis_url: redis://:d319629ejet6si4a@redis:6379
