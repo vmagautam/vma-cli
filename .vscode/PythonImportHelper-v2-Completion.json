@@ -42,6 +42,176 @@
         "documentation": {}
     },
     {
+        "label": "Flask",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "jsonify",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Flask",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "jsonify",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "CORS",
+        "importPath": "flask_cors",
+        "description": "flask_cors",
+        "isExtraImport": true,
+        "detail": "flask_cors",
+        "documentation": {}
+    },
+    {
+        "label": "CORS",
+        "importPath": "flask_cors",
+        "description": "flask_cors",
+        "isExtraImport": true,
+        "detail": "flask_cors",
+        "documentation": {}
+    },
+    {
+        "label": "subprocess",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "subprocess",
+        "description": "subprocess",
+        "detail": "subprocess",
+        "documentation": {}
+    },
+    {
+        "label": "re",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "re",
+        "description": "re",
+        "detail": "re",
+        "documentation": {}
+    },
+    {
+        "label": "logging",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "logging",
+        "description": "logging",
+        "detail": "logging",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "pwd",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pwd",
+        "description": "pwd",
+        "detail": "pwd",
+        "documentation": {}
+    },
+    {
+        "label": "threading",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "threading",
+        "description": "threading",
+        "detail": "threading",
+        "documentation": {}
+    },
+    {
+        "label": "uuid",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "uuid",
+        "description": "uuid",
+        "detail": "uuid",
+        "documentation": {}
+    },
+    {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
         "label": "argparse",
         "kind": 6,
         "isExtraImport": true,
@@ -57,24 +227,6 @@
         "importPath": "base64",
         "description": "base64",
         "detail": "base64",
-        "documentation": {}
-    },
-    {
-        "label": "logging",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "logging",
-        "description": "logging",
-        "detail": "logging",
-        "documentation": {}
-    },
-    {
-        "label": "os",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "os",
-        "description": "os",
-        "detail": "os",
         "documentation": {}
     },
     {
@@ -117,33 +269,6 @@
         "description": "shutil",
         "isExtraImport": true,
         "detail": "shutil",
-        "documentation": {}
-    },
-    {
-        "label": "subprocess",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "subprocess",
-        "description": "subprocess",
-        "detail": "subprocess",
-        "documentation": {}
-    },
-    {
-        "label": "sys",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "sys",
-        "description": "sys",
-        "detail": "sys",
-        "documentation": {}
-    },
-    {
-        "label": "time",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "time",
-        "description": "time",
-        "detail": "time",
         "documentation": {}
     },
     {
@@ -239,6 +364,204 @@
         "description": "vma.cli",
         "peekOfCode": "def cli():\n    \"\"\"Entrypoint for the universal deployment CLI.\"\"\"\n    vma_command()\nif __name__ == \"__main__\":\n    cli()",
         "detail": "vma.cli",
+        "documentation": {}
+    },
+    {
+        "label": "deploy",
+        "kind": 2,
+        "importPath": "deploy_api",
+        "description": "deploy_api",
+        "peekOfCode": "def deploy():\n    # Log the incoming request with detailed information\n    logger.info(f\"Received webhook request from: {request.remote_addr}\")\n    logger.info(f\"Request headers: {dict(request.headers)}\")\n    logger.info(f\"Request method: {request.method}\")\n    logger.info(f\"Content-Type: {request.content_type}\")\n    try:\n        # Parse request data with more flexibility\n        if request.is_json:\n            data = request.get_json(silent=True)",
+        "detail": "deploy_api",
+        "documentation": {}
+    },
+    {
+        "label": "root",
+        "kind": 2,
+        "importPath": "deploy_api",
+        "description": "deploy_api",
+        "peekOfCode": "def root():\n    \"\"\"Root endpoint for basic connectivity testing\"\"\"\n    logger.info(f\"Root endpoint accessed from: {request.remote_addr}\")\n    return jsonify({\n        'status': 'ok',\n        'message': 'Deployment API root endpoint'\n    })\n@app.route('/health', methods=['GET'])\ndef health_check():\n    \"\"\"Simple health check endpoint to verify the API is running\"\"\"",
+        "detail": "deploy_api",
+        "documentation": {}
+    },
+    {
+        "label": "health_check",
+        "kind": 2,
+        "importPath": "deploy_api",
+        "description": "deploy_api",
+        "peekOfCode": "def health_check():\n    \"\"\"Simple health check endpoint to verify the API is running\"\"\"\n    logger.info(f\"Health check accessed from: {request.remote_addr}\")\n    return jsonify({\n        'status': 'ok',\n        'message': 'Deployment API is running'\n    })\ndef check_ssh_agent():\n    \"\"\"Check if SSH agent is running and has keys loaded\"\"\"\n    try:",
+        "detail": "deploy_api",
+        "documentation": {}
+    },
+    {
+        "label": "check_ssh_agent",
+        "kind": 2,
+        "importPath": "deploy_api",
+        "description": "deploy_api",
+        "peekOfCode": "def check_ssh_agent():\n    \"\"\"Check if SSH agent is running and has keys loaded\"\"\"\n    try:\n        # Check if SSH_AUTH_SOCK is set\n        ssh_auth_sock = os.environ.get('SSH_AUTH_SOCK')\n        if not ssh_auth_sock:\n            print(\"WARNING: SSH_AUTH_SOCK environment variable not set. SSH agent might not be running.\")\n            return False\n        # Check if ssh-add -l works\n        result = subprocess.run(['ssh-add', '-l'], capture_output=True, text=True)",
+        "detail": "deploy_api",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "deploy_api",
+        "description": "deploy_api",
+        "peekOfCode": "logger = logging.getLogger(__name__)\napp = Flask(__name__)\n# Enable CORS with more permissive settings for tunneled connections\nCORS(app, resources={r\"/*\": {\"origins\": \"*\"}}, supports_credentials=True)\n@app.route('/deploy', methods=['POST'])\ndef deploy():\n    # Log the incoming request with detailed information\n    logger.info(f\"Received webhook request from: {request.remote_addr}\")\n    logger.info(f\"Request headers: {dict(request.headers)}\")\n    logger.info(f\"Request method: {request.method}\")",
+        "detail": "deploy_api",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "deploy_api",
+        "description": "deploy_api",
+        "peekOfCode": "app = Flask(__name__)\n# Enable CORS with more permissive settings for tunneled connections\nCORS(app, resources={r\"/*\": {\"origins\": \"*\"}}, supports_credentials=True)\n@app.route('/deploy', methods=['POST'])\ndef deploy():\n    # Log the incoming request with detailed information\n    logger.info(f\"Received webhook request from: {request.remote_addr}\")\n    logger.info(f\"Request headers: {dict(request.headers)}\")\n    logger.info(f\"Request method: {request.method}\")\n    logger.info(f\"Content-Type: {request.content_type}\")",
+        "detail": "deploy_api",
+        "documentation": {}
+    },
+    {
+        "label": "generate_deployment_id",
+        "kind": 2,
+        "importPath": "deploy_api_async",
+        "description": "deploy_api_async",
+        "peekOfCode": "def generate_deployment_id():\n    \"\"\"Generate a deployment ID with format CD00001, CD00002, etc.\"\"\"\n    global deployment_counter\n    deployment_counter += 1\n    return f\"CD{deployment_counter:05d}\"\ndef process_deployment_queue():\n    \"\"\"Process deployments in the queue one by one\"\"\"\n    global is_processing_queue\n    if is_processing_queue:\n        return  # Already processing",
+        "detail": "deploy_api_async",
+        "documentation": {}
+    },
+    {
+        "label": "process_deployment_queue",
+        "kind": 2,
+        "importPath": "deploy_api_async",
+        "description": "deploy_api_async",
+        "peekOfCode": "def process_deployment_queue():\n    \"\"\"Process deployments in the queue one by one\"\"\"\n    global is_processing_queue\n    if is_processing_queue:\n        return  # Already processing\n    is_processing_queue = True\n    try:\n        while deployment_queue:\n            # Get the next deployment from the queue\n            deployment_data = deployment_queue[0]",
+        "detail": "deploy_api_async",
+        "documentation": {}
+    },
+    {
+        "label": "extract_url",
+        "kind": 2,
+        "importPath": "deploy_api_async",
+        "description": "deploy_api_async",
+        "peekOfCode": "def extract_url(output, url_type):\n    \"\"\"Extract URL from command output\"\"\"\n    # Try different patterns to match URLs in the output\n    patterns = [\n        rf'{url_type} URL: (http[s]?://\\S+)',  # Standard format\n        rf'{url_type} via domain: (http[s]?://\\S+)',  # Alternative format\n        rf'{url_type} via localhost: (http[s]?://\\S+)'  # Localhost format\n    ]\n    for pattern in patterns:\n        match = re.search(pattern, output, re.IGNORECASE)",
+        "detail": "deploy_api_async",
+        "documentation": {}
+    },
+    {
+        "label": "run_deployment",
+        "kind": 2,
+        "importPath": "deploy_api_async",
+        "description": "deploy_api_async",
+        "peekOfCode": "def run_deployment(deployment_id, tenant, backend_repo_url, backend_branch, frontend_repo_url, frontend_branch):\n    \"\"\"Run deployment in a separate thread\"\"\"\n    try:\n        # Print deployment start message to terminal\n        print(f\"\\n{'='*80}\")\n        print(f\"STARTING DEPLOYMENT {deployment_id} FOR TENANT {tenant}\")\n        print(f\"{'='*80}\\n\")\n        # Update deployment status\n        deployments[deployment_id]['status'] = 'running'\n        deployments[deployment_id]['start_time'] = datetime.now().isoformat()",
+        "detail": "deploy_api_async",
+        "documentation": {}
+    },
+    {
+        "label": "deploy",
+        "kind": 2,
+        "importPath": "deploy_api_async",
+        "description": "deploy_api_async",
+        "peekOfCode": "def deploy():\n    \"\"\"Start an asynchronous deployment\"\"\"\n    try:\n        # Log the incoming request\n        logger.info(f\"Received webhook request from: {request.remote_addr}\")\n        # Parse request data\n        if request.is_json:\n            data = request.get_json(silent=True)\n        else:\n            try:",
+        "detail": "deploy_api_async",
+        "documentation": {}
+    },
+    {
+        "label": "get_deployment_status",
+        "kind": 2,
+        "importPath": "deploy_api_async",
+        "description": "deploy_api_async",
+        "peekOfCode": "def get_deployment_status(deployment_id):\n    \"\"\"Get the status of a deployment\"\"\"\n    if deployment_id not in deployments:\n        return jsonify({\n            'status': 'error',\n            'message': 'Deployment not found'\n        }), 404\n    deployment = deployments[deployment_id]\n    # Return the deployment status\n    return jsonify({",
+        "detail": "deploy_api_async",
+        "documentation": {}
+    },
+    {
+        "label": "list_deployments",
+        "kind": 2,
+        "importPath": "deploy_api_async",
+        "description": "deploy_api_async",
+        "peekOfCode": "def list_deployments():\n    \"\"\"List all deployments\"\"\"\n    deployment_list = []\n    # Add completed/in-progress deployments\n    for deployment_id, deployment in deployments.items():\n        deployment_list.append({\n            'id': deployment_id,\n            'tenant': deployment['tenant'],\n            'status': deployment['status'],\n            'message': deployment['message'],",
+        "detail": "deploy_api_async",
+        "documentation": {}
+    },
+    {
+        "label": "health_check",
+        "kind": 2,
+        "importPath": "deploy_api_async",
+        "description": "deploy_api_async",
+        "peekOfCode": "def health_check():\n    \"\"\"Health check endpoint\"\"\"\n    return jsonify({\n        'status': 'ok',\n        'message': 'Deployment API is running'\n    })\n@app.route('/queue', methods=['GET'])\ndef get_queue():\n    \"\"\"Get the current deployment queue\"\"\"\n    queue_items = []",
+        "detail": "deploy_api_async",
+        "documentation": {}
+    },
+    {
+        "label": "get_queue",
+        "kind": 2,
+        "importPath": "deploy_api_async",
+        "description": "deploy_api_async",
+        "peekOfCode": "def get_queue():\n    \"\"\"Get the current deployment queue\"\"\"\n    queue_items = []\n    for i, item in enumerate(deployment_queue):\n        queue_items.append({\n            'id': item['id'],\n            'tenant': item['tenant'],\n            'position': i + 1,\n            'created_at': deployments[item['id']]['created_at'] if item['id'] in deployments else None\n        })",
+        "detail": "deploy_api_async",
+        "documentation": {}
+    },
+    {
+        "label": "root",
+        "kind": 2,
+        "importPath": "deploy_api_async",
+        "description": "deploy_api_async",
+        "peekOfCode": "def root():\n    \"\"\"Root endpoint\"\"\"\n    return jsonify({\n        'status': 'ok',\n        'message': 'Deployment API root endpoint',\n        'endpoints': {\n            '/deploy': 'POST - Start a new deployment',\n            '/deployments/<id>': 'GET - Get deployment status',\n            '/deployments': 'GET - List all deployments',\n            '/queue': 'GET - View deployment queue',",
+        "detail": "deploy_api_async",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "deploy_api_async",
+        "description": "deploy_api_async",
+        "peekOfCode": "logger = logging.getLogger(__name__)\napp = Flask(__name__)\nCORS(app, resources={r\"/*\": {\"origins\": \"*\"}}, supports_credentials=True)\n# In-memory store for deployment status\ndeployments = {}\n# Deployment queue\ndeployment_queue = []\n# Queue processing flag\nis_processing_queue = False\n# Counter for deployment IDs",
+        "detail": "deploy_api_async",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "deploy_api_async",
+        "description": "deploy_api_async",
+        "peekOfCode": "app = Flask(__name__)\nCORS(app, resources={r\"/*\": {\"origins\": \"*\"}}, supports_credentials=True)\n# In-memory store for deployment status\ndeployments = {}\n# Deployment queue\ndeployment_queue = []\n# Queue processing flag\nis_processing_queue = False\n# Counter for deployment IDs\ndeployment_counter = 0",
+        "detail": "deploy_api_async",
+        "documentation": {}
+    },
+    {
+        "label": "deployments",
+        "kind": 5,
+        "importPath": "deploy_api_async",
+        "description": "deploy_api_async",
+        "peekOfCode": "deployments = {}\n# Deployment queue\ndeployment_queue = []\n# Queue processing flag\nis_processing_queue = False\n# Counter for deployment IDs\ndeployment_counter = 0\ndef generate_deployment_id():\n    \"\"\"Generate a deployment ID with format CD00001, CD00002, etc.\"\"\"\n    global deployment_counter",
+        "detail": "deploy_api_async",
+        "documentation": {}
+    },
+    {
+        "label": "deployment_queue",
+        "kind": 5,
+        "importPath": "deploy_api_async",
+        "description": "deploy_api_async",
+        "peekOfCode": "deployment_queue = []\n# Queue processing flag\nis_processing_queue = False\n# Counter for deployment IDs\ndeployment_counter = 0\ndef generate_deployment_id():\n    \"\"\"Generate a deployment ID with format CD00001, CD00002, etc.\"\"\"\n    global deployment_counter\n    deployment_counter += 1\n    return f\"CD{deployment_counter:05d}\"",
+        "detail": "deploy_api_async",
+        "documentation": {}
+    },
+    {
+        "label": "is_processing_queue",
+        "kind": 5,
+        "importPath": "deploy_api_async",
+        "description": "deploy_api_async",
+        "peekOfCode": "is_processing_queue = False\n# Counter for deployment IDs\ndeployment_counter = 0\ndef generate_deployment_id():\n    \"\"\"Generate a deployment ID with format CD00001, CD00002, etc.\"\"\"\n    global deployment_counter\n    deployment_counter += 1\n    return f\"CD{deployment_counter:05d}\"\ndef process_deployment_queue():\n    \"\"\"Process deployments in the queue one by one\"\"\"",
+        "detail": "deploy_api_async",
+        "documentation": {}
+    },
+    {
+        "label": "deployment_counter",
+        "kind": 5,
+        "importPath": "deploy_api_async",
+        "description": "deploy_api_async",
+        "peekOfCode": "deployment_counter = 0\ndef generate_deployment_id():\n    \"\"\"Generate a deployment ID with format CD00001, CD00002, etc.\"\"\"\n    global deployment_counter\n    deployment_counter += 1\n    return f\"CD{deployment_counter:05d}\"\ndef process_deployment_queue():\n    \"\"\"Process deployments in the queue one by one\"\"\"\n    global is_processing_queue\n    if is_processing_queue:",
+        "detail": "deploy_api_async",
         "documentation": {}
     },
     {

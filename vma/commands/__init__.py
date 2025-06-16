@@ -224,7 +224,32 @@ def deploy_backend(tenant, backend_repo_url, backend_branch):
     
     # Create the transactional database
     print(f"Creating transactional database {config['db_transactional_name']}...")
-    run(f"docker exec {tenant}_db psql -U {config['db_user']} -d {config['db_master_name']} -c \"CREATE DATABASE {config['db_transactional_name']} OWNER {config['db_user']};\"", _raise=False)
+    # Wait for PostgreSQL to be ready
+    print("Waiting for PostgreSQL to be ready...")
+    run(f"docker exec {tenant}_db pg_isready -U {config['db_user']} -d {config['db_master_name']} -t 30", _raise=False)
+    
+    # Try multiple times to create the database
+    max_attempts = 5
+    for attempt in range(1, max_attempts + 1):
+        print(f"Attempt {attempt}/{max_attempts} to create transactional database...")
+        result = run(f"docker exec {tenant}_db psql -U {config['db_user']} -d {config['db_master_name']} -c \"CREATE DATABASE {config['db_transactional_name']} OWNER {config['db_user']};\"", _raise=False)
+        
+        # Check if database already exists (error code 1 with specific message)
+        if "already exists" in result:
+            print(f"Database {config['db_transactional_name']} already exists.")
+            break
+        
+        # Check if command was successful
+        if "CREATE DATABASE" in result:
+            print(f"Successfully created database {config['db_transactional_name']}.")
+            break
+            
+        print(f"Database creation attempt {attempt} failed. Waiting before retry...")
+        run("sleep 5", _raise=False)
+    
+    # Verify the database exists
+    print("Verifying transactional database exists...")
+    run(f"docker exec {tenant}_db psql -U {config['db_user']} -d {config['db_master_name']} -c \"SELECT datname FROM pg_database WHERE datname = '{config['db_transactional_name']}';\"", _raise=True)
     
     # Start the backend container
     print(f"Starting backend container for tenant {tenant}...")
